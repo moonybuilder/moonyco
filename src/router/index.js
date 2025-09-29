@@ -12,7 +12,7 @@ export default new Router({
   mode: 'hash',
   base: '/moonyco/',
   routes: [
-    { path: '/', name: 'HomePage', component: App },
+    { path: '/', name: 'App', component: App },
     { path: '/hotel', name: 'TheHotel', component: TheHotel },
     { path: '/contact', name: 'ReachUs', component: ReachUs },
     { path: '/login', name: 'LogIn', component: LogIn },

@@ -50,10 +50,10 @@
 
 <script>
 export default {
-  name: "HomePage",
+  name: "App",
   methods: {
     goHome() {
-      this.$router.push({ name: 'HomePage' })
+      this.$router.push({ name: 'App' })
     },
     goLogin() {
       this.$router.push({ name: 'LogIn' })
