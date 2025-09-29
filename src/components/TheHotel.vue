@@ -133,7 +133,7 @@ export default {
 <style scoped>
 body,
 #hotel {
-  background-image: url('@/assets/hotel-bg.jpg');
+  background-image: url('@/assets/pierre-chatel-innocenti-pxoZSTdAzeU-unsplash.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

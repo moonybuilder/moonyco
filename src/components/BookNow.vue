@@ -152,7 +152,7 @@ export default {
 
 body,
 #booking {
-  background-image: url('@/assets/background.jpg');
+  background-image: url('@/assets/pierre-chatel-innocenti-pxoZSTdAzeU-unsplash.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
