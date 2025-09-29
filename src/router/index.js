@@ -9,7 +9,7 @@ import LogIn from '@/components/LogIn.vue'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  mode: 'hash',
   base: '/moonyco/',
   routes: [
     { path: '/', name: 'HomePage', component: App },
