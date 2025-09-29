@@ -28,7 +28,7 @@
     <section>
       <br /><br /><br />
 
-      <router-link to="/signIn">
+      <router-link to="/login">
         <button id="apparelButton">Shop For Apparel</button>
       </router-link>
 
@@ -40,8 +40,8 @@
 
       <br /><br /><br />
 
-      <router-link to="/drip">
-        <button id="apparelButton">Drip</button>
+      <router-link to="/contact">
+        <button id="apparelButton">Contact</button>
       </router-link>
 
       <br /><br /><br />
