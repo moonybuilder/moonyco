@@ -1,7 +1,7 @@
 <template>
-  <div id="contact">
+  <div id="login">
     <!-- Navigation Bar -->
-    <nav>
+    <nav id="nav">
       <table border="0" cellpadding="3" cellspacing="2">
         <tr>
           <td height="30%" width="30%">
@@ -15,7 +15,7 @@
                     alt="logo"
                     class="logo"
                   />
-                  Reach Us
+                  Sign In
                 </li>
               </ul>
             </router-link>
@@ -24,44 +24,18 @@
       </table>
     </nav>
 
-    <!-- Page Section -->
+    <!-- Sign In Form -->
     <section>
-      <form @submit.prevent="handleSubmit">
-        <label for="aName">Hey! What's your name?</label>
+      <form @submit.prevent="validate">
+        <label id="nameLabel" for="aName">What's your name?</label>
         <br /><br />
         <input
           type="text"
           id="aName"
-          v-model="formData.name"
-          placeholder="Enter your name here"
-          required
+          v-model="name"
+          placeholder="Enter a name here."
         />
         <br /><br /><br /><br />
-
-        <label for="subject">What's the nature of this inquiry?</label>
-        <br /><br />
-        <select id="subject" v-model="formData.subject" required>
-          <option value="">Select...</option>
-          <option value="Feedback">Feedback</option>
-          <option value="Request">Request</option>
-          <option value="Issue">Issue</option>
-        </select>
-        <br /><br /><br /><br />
-
-        <label for="products">Which one of our products?</label>
-        <br /><br />
-        <select id="products" v-model="formData.product" required>
-          <option value="">Select...</option>
-          <option value="Apparel">Apparel</option>
-          <option value="Room">Room</option>
-        </select>
-        <br /><br /><br /><br />
-
-        <label for="content">Could you please share more details?</label>
-        <br /><br />
-        <textarea id="content" v-model="formData.content" required></textarea>
-        <br /><br /><br /><br />
-
         <input id="submitButton" type="submit" value="Submit" />
         <input id="clearButton" type="reset" @click="resetForm" />
       </form>
@@ -76,31 +50,23 @@
 
 <script>
 export default {
-  name: "Contact",
+  name: "LogIn",
   data() {
     return {
-      formData: {
-        name: "",
-        subject: "",
-        product: "",
-        content: "",
-      },
+      name: "",
     };
   },
   methods: {
-    handleSubmit() {
-      // Here you can do any submit logic like API call
-      console.log("Form submitted:", this.formData);
-      alert("Form submitted successfully!");
-      this.resetForm();
+    validate() {
+      if (!this.name.trim()) {
+        alert("You must enter a name");
+      } else {
+        // Navigate to wardrobe page (using Vue Router)
+        this.$router.push("/wardrobe");
+      }
     },
     resetForm() {
-      this.formData = {
-        name: "",
-        subject: "",
-        product: "",
-        content: "",
-      };
+      this.name = "";
     },
   },
 };
@@ -112,8 +78,8 @@ export default {
 }
 
 body,
-#contact {
-  background-image: url('@/assets/background.jpg');
+#login {
+  background-image: url("@/assets/background.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -144,39 +110,34 @@ section {
   overflow-wrap: break-word;
 }
 
-input,
-textarea,
-select {
-  width: 50%;
-  padding: 7px 15px;
+input {
+  height: 30%;
+  width: 30%;
   font-family: "Marker Felt", sans-serif;
   color: #06262d;
   text-align: center;
 }
 
-input:focus,
-textarea:focus,
-select:focus {
+input:focus {
   border: 2px solid #273e3a;
 }
 
-#submitButton {
-  background-color: #04191d;
-  color: white;
-  font-size: 20px;
-  padding: 15px 15px;
-  margin-right: 5px;
+#nameLabel {
+  font-family: "Marker Felt", sans-serif;
+  color: #a5e6f3;
 }
 
-#submitButton:hover {
-  background-color: hsla(140, 100%, 40%, 0.3);
-  color: #000000;
+#aName {
+  width: 50%;
+  padding: 7px 15px;
 }
 
 #clearButton {
   background-color: #04191d;
   color: white;
   font-size: 20px;
+  font-family: "Marker Felt", sans-serif;
+  float: center;
   padding: 15px 15px;
 }
 
@@ -185,8 +146,23 @@ select:focus {
   color: #000000;
 }
 
+#submitButton {
+  background-color: #04191d;
+  color: white;
+  font-size: 20px;
+  font-family: "Marker Felt", sans-serif;
+  float: right;
+  padding: 15px 15px;
+}
+
+#submitButton:hover {
+  background-color: hsla(140, 100%, 40%, 0.3);
+  color: #000000;
+}
+
 footer {
   color: hsla(120, 0%, 50%, 0.5);
   font-family: cursive;
+  position: bottom fixed;
 }
 </style>

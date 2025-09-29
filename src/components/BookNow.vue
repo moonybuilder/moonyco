@@ -73,7 +73,7 @@
 const MAX_COUNT = 18;
 
 export default {
-  name: "Hotel",
+  name: "BookNow",
   data() {
     return {
       roomType: "",
