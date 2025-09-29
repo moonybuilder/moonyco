@@ -5,8 +5,8 @@
       <table border="0" cellpadding="3" cellspacing="15">
         <tr>
           <td height="30%" width="30%">
-            <router-link to="/"> <!-- Using Vue Router for navigation -->
-              <ul id="logoName">
+             <!-- Using Vue Router for navigation -->
+              <ul @click="goHome" id="logoName">
                 <li>
                   <img
                     src="@/assets/favicon.png"
@@ -18,7 +18,6 @@
                   MOONY
                 </li>
               </ul>
-            </router-link>
           </td>
         </tr>
       </table>
@@ -28,21 +27,16 @@
     <section>
       <br /><br /><br />
 
-      <router-link to="/login">
-        <button id="apparelButton">Shop For Apparel</button>
-      </router-link>
+      
+        <button @click="goLogin" id="apparelButton">Shop For Apparel</button>
 
       <br /><br /><br />
 
-      <router-link to="/hotel">
-        <button id="hotelButton">Book Your Hotel Room</button>
-      </router-link>
+        <button @click="goHotel" id="hotelButton">Book Your Hotel Room</button>
 
       <br /><br /><br />
 
-      <router-link to="/contact">
-        <button id="apparelButton">Contact</button>
-      </router-link>
+        <button @click="goContact" id="apparelButton">Contact</button>
 
       <br /><br /><br />
     </section>
@@ -57,6 +51,20 @@
 <script>
 export default {
   name: "HomePage",
+  methods: {
+    goHome() {
+      this.$router.push({ name: 'Home' })
+    },
+    goLogin() {
+      this.$router.push({ name: 'LogIn' })
+    },
+    goContact() {
+      this.$router.push({ name: 'ReachUs' })
+    },
+    goHotel() {
+      this.$router.push({ name: 'TheHotel' })
+    }
+  }
 };
 </script>
 
