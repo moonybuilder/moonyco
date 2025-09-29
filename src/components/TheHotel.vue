@@ -27,7 +27,7 @@
     <!-- Page Section -->
     <section>
       <div id="section">
-        <router-link to="/Booking">
+        <router-link to="/booking">
         <div
           id="type"
           @click="selectRoom('standard')"
@@ -35,7 +35,7 @@
           <h3 class="discount">{{ discounts.standard }}</h3>
         </div>
         </router-link>
-        <router-link to="/Booking">
+        <router-link to="/booking">
         <div
           id="type"
           @click="selectRoom('deluxe')"
@@ -43,7 +43,7 @@
           <h3 class="discount">{{ discounts.deluxe }}</h3>
         </div>
         </router-link>
-        <router-link to="/Booking">
+        <router-link to="/booking">
         <div
           id="type"
           @click="selectRoom('premium')"

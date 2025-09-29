@@ -1,68 +1,47 @@
 <template>
   <div id="booking">
-    <!-- Navigation Bar -->
     <nav>
-      <table border="0" cellpadding="3" cellspacing="2">
-        <tr>
-          <td height="30%" width="30%">
-            <router-link to="/">
-              <ul class="logoName">
-                <li>
-                  <img
-                    src="@/assets/favicon.png"
-                    height="15%"
-                    width="15%"
-                    alt="logo"
-                    class="logo"
-                  />
-                  HOTEL
-                </li>
-              </ul>
-            </router-link>
-          </td>
-        </tr>
-      </table>
+      <router-link to="/hotel">
+        <ul class="logoName">
+          <li>
+            <img src="@/assets/favicon.png" alt="logo" class="logo" />
+            HOTEL
+          </li>
+        </ul>
+      </router-link>
     </nav>
 
-    <!-- Room Section -->
     <section>
       <br /><br /><br />
-      <p>
-        Current Price: <i>{{ currentPrice }}</i>
-      </p>
-      <br /><br /><br /><br /><br />
+      <p> Current Price: <i>{{ selectionText }}</i></p>
 
-      <label for="roomType">Select Room Type:</label>
-      <br /><br />
-      <select id="roomType" v-model="roomType" @change="setType">
-        <option value="">Select...</option>
-        <option value="STANDARD">Standard</option>
-        <option value="DELUXE">Deluxe</option>
-        <option value="PREMIUM">Premium</option>
-      </select>
-      <br /><br /><br /><br />
-
-      <form @submit.prevent>
+      <form @submit.prevent="newRoom">
         <p v-html="memo"></p>
         <br /><br /><br /><br />
-
         <input
-          id="bookButton"
+          v-if="roomAvailable"
+          id="bookButtonS"
+          @click="book"
           type="button"
           value="Book"
-          @click="book"
-          :disabled="!roomType"
         />
-        <input id="clearButton" type="button" value="New Room" @click="resetRoom" />
+        <input
+          v-else
+          id="bookButtonS"
+          @click="goHome"
+          type="button"
+          value="Back to Home"
+        />
+        <input id="clearButton" type="submit" value="New Room" />
       </form>
 
       <br /><br /><br />
-      <router-link to="/">
+
+      <router-link to="/hotel">
         <button id="cancelButton">Cancel</button>
       </router-link>
     </section>
 
-    <!-- Footer -->
     <footer>
       <i><center>Copyright arandomgirl<sup>TM</sup> 2022</center></i>
     </footer>
@@ -70,101 +49,138 @@
 </template>
 
 <script>
-const MAX_COUNT = 18;
+import { createClient } from '@supabase/supabase-js'
+
+// Supabase client
+const supabaseUrl = 'https://bsonokuujaesjvfhfkmp.supabase.co'
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzb25va3V1amFlc2p2Zmhma21wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxNDUyMTAsImV4cCI6MjA3NDcyMTIxMH0.0EMzRxqBASECnGlB2eT9dIP5t26HMZRl_BWG6kZA0hI'
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 export default {
-  name: "BookNow",
+  name: 'BookNow',
   data() {
     return {
-      roomType: "",
-      currentPrice: "",
-      memo: "",
-    };
+      selectionText: localStorage.getItem('selection') || '',
+      memo: '',
+      roomAvailable: true,
+      roomData: null
+    }
   },
-  mounted() {
-    this.currentPrice = localStorage.getItem("selection") || "";
+  async mounted() {
+    await this.checkRoomAvailability()
   },
   methods: {
-    setType() {
-      localStorage.setItem("type", this.roomType);
-      // Update price for selected type (example, replace with actual logic)
-      const prices = { STANDARD: "$100", DELUXE: "$200", PREMIUM: "$300" };
-      this.currentPrice = prices[this.roomType];
-      localStorage.setItem("price", this.currentPrice);
-    },
-    book() {
-      const namePrompt = prompt("Your Name");
-      if (!namePrompt) return;
-
-      const name = namePrompt.charAt(0).toUpperCase() + namePrompt.slice(1);
-
-      localStorage.taken = localStorage.taken ? Number(localStorage.taken) + 1 : 1;
-
-      const roomID = this.booker();
-      if (roomID === 0) {
-        this.memo = "<br><strong>NO ROOMS AVAILABLE</strong>";
-        return;
+    async checkRoomAvailability() {
+      const type = localStorage.getItem('type')
+      if (!type) {
+        this.selectionText = 'No room type selected'
+        this.roomAvailable = false
+        return
       }
 
-      const dataA = [
-        `<h5>Thanks for your booking ${name}</h5>`,
-        `<br>You're in our <br><br><strong>${localStorage.getItem("type")} ROOM</strong>`,
-        `<br>You're booked for <br><br><strong>Room ${roomID}</strong><br><br><i> ENJOY! </i>`,
-        `<br><br><br><br>=========================<br><h3>INVOICE FOR ROOM ${roomID}</h3><br>=========================<br><br><i style ='color: green;'>Billed To: </i><br><br><b>GUEST:</b>   ${name}<br><br><br><b style ='color: red;'>AMOUNT DUE:   </b>${localStorage.getItem("price")}<br><br>-------------------------`,
-        `<br><br><br><i style='color: red; font-size: 18px;'>****************To cancel a booking please visit the main hotel page****************</i>`,
-      ];
+      // Query Supabase for an available room of this type
+      const { data, error } = await supabase
+        .from('hotel_rooms')
+        .select('*')
+        .eq('room_type', type)
+        .is('guest_name', null)
+        .limit(1)
 
-      this.memo = dataA.join("<br>");
+      if (error) {
+        console.error(error)
+        this.memo = 'Error checking room availability.'
+        this.roomAvailable = false
+        return
+      }
 
-      if (localStorage.taken > 18) localStorage.clear();
-    },
-    resetRoom() {
-      this.roomType = "";
-      this.currentPrice = "";
-      this.memo = "";
-      localStorage.removeItem("type");
-      localStorage.removeItem("price");
-    },
-    booker() {
-      const avail = MAX_COUNT - Number(localStorage.taken || 0);
-      switch (localStorage.getItem("type")) {
-        case "STANDARD":
-          localStorage.stan = localStorage.stan ? Number(localStorage.stan) + 1 : 1;
-          return avail > -1 && Number(localStorage.stan) < 7 ? Number(localStorage.stan) + 12 : 0;
-        case "DELUXE":
-          localStorage.delu = localStorage.delu ? Number(localStorage.delu) + 1 : 1;
-          return avail > -1 && Number(localStorage.delu) < 7 ? Number(localStorage.delu) + 6 : 0;
-        case "PREMIUM":
-          localStorage.prem = localStorage.prem ? Number(localStorage.prem) + 1 : 1;
-          return avail > -1 && Number(localStorage.prem) < 7 ? Number(localStorage.prem) : 0;
-        default:
-          return 0;
+      if (!data || data.length === 0) {
+        this.selectionText = 'No rooms available'
+        this.roomAvailable = false
+        localStorage.removeItem('type')
+        localStorage.removeItem('selection')
+        localStorage.removeItem('price')
+      } else {
+        this.roomData = data[0] // room to book
       }
     },
-  },
-};
+
+    async book() {
+      const nameInput = prompt('Your Name')
+      if (!nameInput || !this.roomData) return
+
+      const name = nameInput.charAt(0).toUpperCase() + nameInput.slice(1)
+      const roomID = this.roomData.room_id
+
+      const price = localStorage.getItem('price')
+
+      // Update room in Supabase
+      const { error } = await supabase
+        .from('hotel_rooms')
+        .update({ guest_name: name, price })
+        .eq('room_id', this.roomData.room_id)
+
+      if (error) {
+        console.error(error)
+        this.memo = 'Error booking room.'
+        return
+      }
+
+      // Booking memo
+      this.memo = `
+        <h5>Thanks for your booking ${name}</h5>
+        <br>You're in our <br><br><strong>${this.roomData.room_type} ROOM</strong>
+        <br>You're booked for <br><br><strong>Room ${roomID}</strong><br><br><i>ENJOY!</i>
+        <br><br><br><br>=========================
+        <br><h3>INVOICE FOR ROOM ${roomID}</h3>
+        <br>=========================<br>
+        <i style='color: green;'>Billed To: </i><br><br>
+        <b>GUEST:</b> ${name}<br><br>
+        <b style='color: red;'>AMOUNT DUE:</b> ${price}<br><br>
+        -------------------------
+        <br><br><br>
+        <i style='color: red; font-size: 18px;'>
+        ****************To cancel a booking please visit the main hotel page****************</i>
+      `
+
+      localStorage.taken = Number(localStorage.taken || 0) + 1
+    },
+
+    newRoom() {
+      localStorage.removeItem('type')
+      localStorage.removeItem('selection')
+      localStorage.removeItem('price')
+      this.$router.push('/hotel')
+    },
+
+    goHome() {
+      this.newRoom()
+    }
+  }
+}
 </script>
 
 <style scoped>
-.logo {
-  border-radius: 100%;
-}
-
 body,
 #booking {
   background-image: url('@/assets/pierre-chatel-innocenti-pxoZSTdAzeU-unsplash.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  background-color: #04191d;
+  background-color: #1E2224;
   height: 100%;
   width: 100%;
-  font-family: "Marker Felt", sans-serif;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.logo {
+  border-radius: 100%;
 }
 
 .logoName {
   list-style-type: none;
   color: white;
+  font-family: marker felt;
   font-size: 50px;
   text-align: center;
   text-decoration: none;
@@ -173,7 +189,7 @@ body,
 section {
   height: 50%;
   width: 50%;
-  background-color: hsla(170, 23%, 75%, 0.3);
+  background-color: hsla(180, 12%, 70%, 0.3);
   color: white;
   font-size: 25px;
   font-family: sans-serif;
@@ -183,53 +199,18 @@ section {
   overflow-wrap: break-word;
 }
 
-input,
-textarea,
-select {
-  width: 50%;
-  padding: 7px 15px;
-  font-family: "Marker Felt", sans-serif;
-  color: #06262d;
-  text-align: center;
-}
-
-button {
-  height: 20%;
-  width: 20%;
+button,
+input {
+  padding: 15px;
+  font-family: marker felt;
+  font-size: 20px;
+  color: white;
+  background-color: #232D2D;
   border: none;
-  padding: 8px 8px;
-  background: transparent;
 }
 
-#bookButton,
-#clearButton {
-  background-color: #04191d;
-  color: white;
-  font-size: 20px;
-  padding: 15px 15px;
-  margin: 5px;
-}
-
-#bookButton:hover,
-#clearButton:hover {
-  background-color: hsla(140, 100%, 40%, 0.3);
-  color: #000000;
-}
-
-#cancelButton {
-  background-color: #654343;
-  color: white;
-  font-size: 20px;
-  padding: 15px 15px;
-}
-
-#cancelButton:hover {
-  background-color: hsla(240, 0%, 95%, 0.1);
-  color: #654343;
-}
-
-footer {
-  color: hsla(120, 0%, 50%, 0.5);
-  font-family: cursive;
+button:hover,
+input:hover {
+  opacity: 0.8;
 }
 </style>
