@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+	<html>
+
+		<head>
+
+			<meta charset = "utf-8">
+			<title> MOONY </title>
+			<link rel = "icon" type = "image/x-icon" href = "../../images/icons/yogendra-singh-iKLqcZTEkws-unsplash.png">
+			<link rel = "stylesheet" type="text/css" href = "../stylesheets/hotel.css">
+
+		</head>
+							<!--page body starts here!-->
+		<body>
+							<!--navigation bar-->
+
+			<nav>
+
+				<table border = "0" cellpadding = "3" cellspacing = "2">
+
+					<tr>
+
+						<td height = "30%" width = "30%">
+
+							<a href = "hotel.html">
+
+								
+								<ul class = "logoName">
+
+									<li>
+										<img src = "../../AS1/images/icons/yogendra-singh-iKLqcZTEkws-unsplash.png" height = "15%" width = "15%" alt = "logo" class = "logo"/>
+
+										HOTEL
+									</li>
+
+								</ul>
+
+							</a>
+
+						</td>
+
+					</tr>
+
+				</table>
+
+			</nav>
+							<!--page section-->
+			<section >
+
+  					</br>
+					</br>
+  					</br>
+
+  					<p> Current Price: <i id="price"> </i></p>
+  					<script>
+
+				
+  						document.getElementById('price').innerHTML = localStorage.getItem("selection");
+				
+
+					</script>
+
+  					</br>
+					</br>
+  					</br>
+  					</br>
+					</br>
+
+
+					<form action="hotel.html">
+
+  						<p id="memo"> </p>
+
+  						</br>
+  						</br>
+  						</br>
+  						</br>
+
+
+
+  						<input id = "bookButtonS" onclick="book()" type="button" value="Book">
+  						<input id = "clearButton" value="New Room" type="submit" >
+
+					</form>
+
+					</br>
+  					</br>
+  					</br>
+
+					<a href = "hotel.html">
+
+						<button id = "cancelButton"> Cancel </button>
+
+					</a> 
+
+					</br>
+					</br>
+					</br>
+					
+					</br>
+					</br>
+
+					<script src="../scripts/book.js"></script>
+
+
+				</section>
+
+							<!--page footer-->
+
+				<footer>
+
+				<i><center> Copyright arandomgirl<sup>TM</sup> 2022 </center></i>
+
+				</footer>
+
+			</body>
+
+		</html>
