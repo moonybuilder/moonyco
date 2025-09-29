@@ -10,6 +10,7 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
+  base: 'moonyco',
   routes: [
     { path: '/', name: 'HomePage', component: App },
     { path: '/hotel', name: 'TheHotel', component: TheHotel },
