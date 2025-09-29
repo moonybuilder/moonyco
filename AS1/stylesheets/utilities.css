@@ -1,8 +1,18 @@
-<style>
 
   .logo
   {
     border-radius: 100%;
+  }
+
+  body
+  {
+    background-image: url('../../images/backgrounds/pierre-chatel-innocenti-pxoZSTdAzeU-unsplash.jpg'); 
+    background-repeat: no-repeat; 
+    background-size: cover;
+    background-position: center;
+    background-color: #04191d;
+    height: 100%;
+    width: 100%;
   }
 
   .logoName
@@ -13,41 +23,6 @@
     font-size: 50px;
     text-align: center;
     text-decoration: none;
-  }
-
-  body
-  {
-    background-image: url('../../images/backgrounds/choi-sungwoo-4hWPlZcJ_Y8-unsplash.jpg'); 
-    background-repeat: no-repeat; 
-    background-size: cover;
-    background-position: center;
-    background-color: #000001;
-    height: 100%;
-    width: 100%;
-  }
-
-  #square
-  { 
-    list-style-type: square;
-    font-size: 25px;
-    color: red;
-    font-family: courier;
-  }
-
-  #circle
-  {
-    list-style-type: circle;
-    font-size: 25px;
-    color: blue;
-    font-family: typewriter;
-  }
-
-  #disc
-  {
-    list-style-type: disc;
-    font-size: 25px;
-    color: yellow;
-    font-family: monospace;
   }
 
   #searchBar
@@ -78,7 +53,7 @@
     color: black;
     background-color: transparent;
     text-decoration: none;
-    }
+  }
 
   button
   {
@@ -88,19 +63,11 @@
     padding: 8px 8px;
     background: transparent;
   }
-
-  .icon
-  {
-    padding: 2px 2px;
-    height: 30px;
-    width: 30px;
-  }
-
   section
   {
     height: 50%;
     width: 50%;
-    background-color: hsla(240, 100%, 75%, 0.3);
+    background-color: hsla(170, 23%, 75%, 0.3);
     color: white;
     font-size: 25px;
     font-family: sans-serif;
@@ -110,9 +77,42 @@
     overflow-wrap: break-word;
   }
 
-  #toFormButton
+  .icon
   {
-    background-color: #000001;
+    padding: 2px 2px;
+    height: 30px;
+    width: 30px;
+  }
+
+  input
+  {
+    height: 30%;
+    width: 30%;
+    font-family: marker felt;
+    color: #06262d;
+    text-align: center;
+  }
+
+  input:focus 
+  {
+    border: 2px solid #273e3a;
+  }
+
+  #nameLabel
+  {
+    font-family: marker felt;
+    color: #a5e6f3;
+  }
+
+  #aName
+  {
+    width: 50%;
+    padding: 7px 15px;
+  }
+
+  #clearButton
+  {
+    background-color: #04191d;
     color: white;
     font-size: 20px;
     font-family: marker felt;
@@ -120,12 +120,28 @@
     padding: 15px 15px;
   }
 
-  #toFormButton:hover
+  #clearButton:hover
   {
-    background-color: hsla(240, 0%, 95%, 0.1);
-    color: #254789;
+    background-color: hsla(140, 100%, 30%, 0.1);
+    color: #000000;
   }
 
+  #submitButton
+  {
+    background-color: #04191d;
+    color: white;
+    font-size: 20px;
+    font-family: marker felt;
+    float: right;
+    padding: 15px 15px;
+  }
+
+  #submitButton:hover
+  {
+    background-color: hsla(140, 100%, 40%, 0.3);
+    color: #000000;
+  }
+  
   footer
   {
     color: hsla(120, 0%, 50%, 0.5);
@@ -133,4 +149,3 @@
     position: bottom fixed;
   }
 
-</style>
