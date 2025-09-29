@@ -11,7 +11,7 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',
   routes: [
-    { path: '/', name: 'Home', component: App },
+    { path: '/', name: 'HomePage', component: App },
     { path: '/hotel', name: 'TheHotel', component: TheHotel },
     { path: '/contact', name: 'ReachUs', component: ReachUs },
     { path: '/login', name: 'LogIn', component: LogIn },

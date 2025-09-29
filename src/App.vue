@@ -53,7 +53,7 @@ export default {
   name: "HomePage",
   methods: {
     goHome() {
-      this.$router.push({ name: 'Home' })
+      this.$router.push({ name: 'HomePage' })
     },
     goLogin() {
       this.$router.push({ name: 'LogIn' })
