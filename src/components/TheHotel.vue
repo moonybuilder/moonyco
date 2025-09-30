@@ -115,10 +115,7 @@ export default {
     selectRoom(type) {
       const selection = this.discounts[type];
       localStorage.setItem("selection", selection);
-      localStorage.setItem(
-        "type",
-        selection.slice(selection.indexOf(" ") + 3).trim()
-      );
+      localStorage.setItem("type",selection.slice(selection.indexOf(" ") + 3).trim());
       localStorage.setItem("price", selection.slice(1, selection.indexOf(" ")));
       // navigate to corresponding page
       this.$router.push(`/${type}`);

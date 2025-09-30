@@ -80,7 +80,7 @@ export default {
 
       // Query Supabase for an available room of this type
       const { data, error } = await supabase
-        .from('hotel_rooms')
+        .from('moonyco.hotel_rooms')
         .select('*')
         .eq('room_type', type)
         .is('guest_name', null)
@@ -93,15 +93,15 @@ export default {
         return
       }
 
-      if (!data || data.length === 0) {
-        this.selectionText = 'No rooms available'
-        this.roomAvailable = false
-        localStorage.removeItem('type')
-        localStorage.removeItem('selection')
-        localStorage.removeItem('price')
-      } else {
+      //if (!data || data.length === 0) {
+        //this.selectionText = 'No rooms available'
+        //this.roomAvailable = false
+        //localStorage.removeItem('type')
+        //localStorage.removeItem('selection')
+        //localStorage.removeItem('price')
+      //} else {
         this.roomData = data[0] // room to book
-      }
+      //}
     },
 
     async book() {
@@ -115,7 +115,7 @@ export default {
 
       // Update room in Supabase
       const { error } = await supabase
-        .from('hotel_rooms')
+        .from('moonyco.hotel_rooms')
         .update({ guest_name: name, price })
         .eq('room_id', this.roomData.room_id)
 
