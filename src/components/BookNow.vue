@@ -80,7 +80,7 @@ export default {
 
       // Query Supabase for an available room of this type
       const { data, error } = await supabase
-        .from('moonyco.hotel_rooms')
+        .from('hotel_rooms')
         .select('*')
         .eq('room_type', type)
         .is('guest_name', null)
@@ -115,7 +115,7 @@ export default {
 
       // Update room in Supabase
       const { error } = await supabase
-        .from('moonyco.hotel_rooms')
+        .from('hotel_rooms')
         .update({ guest_name: name, price })
         .eq('room_id', this.roomData.room_id)
 
