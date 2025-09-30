@@ -114,7 +114,7 @@ export default {
       const price = localStorage.getItem('price')
 
       // Update room in Supabase
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('hotel_rooms')
         .update({
           guest_name: name,
