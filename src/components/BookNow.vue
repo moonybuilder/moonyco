@@ -114,10 +114,14 @@ export default {
       const price = localStorage.getItem('price')
 
       // Update room in Supabase
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('hotel_rooms')
-        .update({ guest_name: name, price })
-        .eq('room_id', this.roomData.room_id)
+        .update({
+          guest_name: name,
+          price: price
+        })
+        .eq('room_id', this.roomID)  // only update the room with this ID
+        .select();                   // return the updated row(s)
 
       if (error) {
         console.error(error)
