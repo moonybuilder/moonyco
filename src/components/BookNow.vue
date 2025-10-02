@@ -4,7 +4,11 @@
       <router-link to="/hotel">
         <ul id="logo">
           <li>
-            <img src="@/assets/favicon.png" alt="logo" class="logo" />
+            <img src="@/assets/favicon.png" 
+              height="15%"
+              width="15%"
+              alt="logo"
+              class="logo" />
           </li>
         </ul>
       </router-link>
@@ -48,7 +52,8 @@
 
 <script>
 import { createClient } from '@supabase/supabase-js'
-
+import { v4 as uuidv4 } from 'uuid';
+    const ref = uuidv4(); // ex: "c9b1d6c0-0f0a-4b89-bbb2-4bcd21d3e123"
 // Supabase client
 const supabaseUrl = 'https://bsonokuujaesjvfhfkmp.supabase.co'
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzb25va3V1amFlc2p2Zmhma21wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxNDUyMTAsImV4cCI6MjA3NDcyMTIxMH0.0EMzRxqBASECnGlB2eT9dIP5t26HMZRl_BWG6kZA0hI'
@@ -115,6 +120,15 @@ export default {
       const cardNumber = prompt('Enter 16-digit card number')
       const holderName = prompt('Card Holder Name')
       if (!cardNumber || !holderName) {
+        await supabase.from('transactions').insert([
+        {
+          id: ref,
+          card_id: cardData.id,
+          amount_cents: priceCents,
+          description: `Payment processing failed.`,
+          status: 'cancelled'
+        }
+      ])
         alert('Payment cancelled.')
         return
       }
@@ -132,6 +146,15 @@ export default {
       }
 
       if (cardData.balance_cents < priceCents) {
+        await supabase.from('transactions').insert([
+        {
+          id: ref,
+          card_id: cardData.id,
+          amount_cents: priceCents,
+          description: `Insufficient balance.`,
+          status: 'declined'
+        }
+      ])
         alert('Insufficient balance.')
         return
       }
@@ -143,6 +166,15 @@ export default {
         .eq('id', cardData.id)
 
       if (updateError) {
+        await supabase.from('transactions').insert([
+        {
+          id: ref,
+          card_id: cardData.id,
+          amount_cents: priceCents,
+          description: `Payment processing failed.`,
+          status: 'cancelled'
+        }
+      ])
         alert('Payment processing failed.')
         return
       }
@@ -150,6 +182,7 @@ export default {
       // Record transaction
       await supabase.from('transactions').insert([
         {
+          id: ref,
           card_id: cardData.id,
           amount_cents: priceCents,
           description: `Booking Room ${roomID} (${this.roomData.room_type})`,
@@ -171,33 +204,23 @@ export default {
         alert('Failed to update room booking.')
         return
       }
-
+      
       // Booking memo
       this.memo = `
-        <h5>Thanks for your booking ${name}</h5>
+        <h5>Congratulations ${name}</h5>
         <br>You're in our <strong>${this.roomData.room_type} ROOM ${roomID}</strong>
         <br>=========================
         <br><h3>INVOICE FOR ROOM ${roomID}</h3>
-        <br>=========================<br>
-        <i style='color: blue;'>Billed To: ${name}</i><br>
-        <b style='color: red;'>AMOUNT DUE:</b> $${((price*100)-priceCents).toFixed(2)}<br>
-        -------------------------<br>
-        <i style='color: red; font-size: 18px;'>****************To cancel a booking please visit the main hotel page****************</i>
-      `
-      if (updateError){
-        this.memo = `
-        <h5>Thanks for your booking ${name}</h5>
-        <br>You're in our <strong>${this.roomData.room_type} ROOM ${roomID}</strong>
         <br>=========================
-        <br><h3>INVOICE FOR ROOM ${roomID}</h3>
-        <br>=========================<br>
-        <i style='color: blue;'>Billed To: ${name}</i><br>
-        <b style='color: red;'>AMOUNT DUE:</b> $${price.toFixed(2)}<br>
+        Billed To: ${name}<br>
+        Per Night: $${price.toFixed(2)}
+        Deposit: $${price.toFixed(2)}<br>
+        <b style='color: red;'>AMOUNT DUE:</b> $${((price*100)-priceCents).toFixed(2)}
+        <b style='color: green;'>AMOUNT PAID: $${price.toFixed(2)}<br>
         -------------------------<br>
-        <i style='color: red; font-size: 18px;'>****************To cancel a booking please visit the main hotel page****************</i>
+        <i> ref id: ${this.ref} </i>
+        <i style='color: red; font-size: 18px;'>********* to cancel a booking, please visit the main hotel page *********</i>
       `
-      }
-      
     },
 
     newRoom() {

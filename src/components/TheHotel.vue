@@ -5,8 +5,7 @@
       <table border="0" cellpadding="3" cellspacing="2">
         <tr>
           <td height="30%" width="30%">
-            <router-link to="/">
-              <ul style="align-content: center;">
+              <ul @click="goHome" style="align-content: center;" id="heading">
                 <li>
                   <img
                     src="@/assets/favicon.png"
@@ -16,11 +15,10 @@
                     class="logo"
                   />
                   </li>
-                  <li id="heading">
+                  <li>
                   moonyco hotel
                 </li>
               </ul>
-            </router-link>
           </td>
         </tr>
       </table>
@@ -80,6 +78,9 @@ export default {
     };
   },
   methods: {
+    goHome() {
+      this.$router.push({ name: "HomePage" });
+    },
     generateDiscounts() {
       const SMAX = 301,
         SMIN = 99,
@@ -151,9 +152,10 @@ body,
 #heading {
   list-style-type: none;
   color: white;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   font-size: 100%;
+  text-align: center;
   text-decoration: none;
+  cursor: pointer;
 }
 
 *:visited{ text-decoration: none;}

@@ -111,7 +111,7 @@ button {
   border-radius: 100%;
 }
 
-#logoName {
+#heading {
   list-style-type: none;
   color: white;
   font-size: 100%;
