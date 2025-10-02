@@ -222,8 +222,8 @@ body,
   background-position: center;
   background-attachment: fixed;
   background-blend-mode: difference;
-  height: 70%;
-  width: 70%;
+  height: 100%;
+  width: 100%;
   margin: 0;
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
@@ -231,18 +231,8 @@ body,
 .logo {
   border-radius: 100%;
 }
-
-.logoName {
-  list-style-type: none;
-  color: white;
-  font-family: marker felt;
-  font-size: 50px;
-  text-align: center;
-  text-decoration: none;
-}
-
 section {
-  height: 50%;
+  height: 70%;
   width: 50%;
   background-color: hsla(360, 0%, 0%, 0.3);
   color: white;
@@ -252,7 +242,7 @@ section {
   margin-left: 20%;
   overflow-wrap: break-word;
 }
-
+*:visited{ text-decoration: none;}
 button,
 input {
   padding: 15px;
@@ -266,5 +256,12 @@ input {
 button:hover,
 input:hover {
   opacity: 0.8;
+}
+footer {
+  color: hsla(120, 100%, 100%, 0.3);
+  font-family: cursive;
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }
 </style>

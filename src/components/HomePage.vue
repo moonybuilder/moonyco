@@ -26,19 +26,19 @@
 
     <!-- Page Section -->
     <section>
-      <br /><br /><br />
+      <br />
 
       <button @click="goLogin" id="apparelButton">Shop For Apparel</button>
 
-      <br /><br /><br />
+      <br />
 
       <button @click="goHotel" id="hotelButton">Book Your Hotel Room</button>
 
-      <br /><br /><br />
+      <br />
 
       <button @click="goContact" id="apparelButton">Contact</button>
 
-      <br /><br /><br />
+      <br />
     </section>
 
     <!-- Page Footer -->
@@ -77,6 +77,7 @@ body,
   background-attachment: fixed;
   background-position: center;
   background-color: #1d3c62;
+  background-blend-mode: difference;
   height: 100%;
   width: 100%;
   margin: 0;
@@ -87,10 +88,8 @@ a:link {
   color: white;
   text-decoration: none;
 }
-a:visited {
-  color: darkgray;
-  text-decoration: none;
-}
+*:visited{ text-decoration: none;}
+
 a:active {
   color: black;
   text-decoration: none;
@@ -99,6 +98,8 @@ a:active {
 button {
   height: 30%;
   width: 50%;
+  color: white;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   border: none;
   padding: 8px 8px;
   background: transparent;
@@ -112,8 +113,7 @@ button {
 #logoName {
   list-style-type: none;
   color: white;
-  font-family: "Marker Felt", sans-serif;
-  font-size: 50px;
+  font-size: 70%;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
@@ -132,7 +132,7 @@ button:hover {
 }
 
 section {
-  height: 50%;
+  height: 30%;
   width: 50%;
   background-color: hsla(213, 54%, 75%, 0.3);
   color: white;

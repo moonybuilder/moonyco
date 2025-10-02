@@ -137,6 +137,7 @@ body,
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
+  background-blend-mode: difference;
   height: 100%;
   width: 100%;
   margin: 0;
@@ -151,10 +152,11 @@ body,
   list-style-type: none;
   color: white;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-size: 15%;
-  text-align: center;
+  font-size: 50%;
   text-decoration: none;
 }
+
+*:visited{ text-decoration: none;}
 
 #type {
   padding: 20px;
@@ -194,5 +196,12 @@ section {
   text-align: center;
   margin-left: 20%;
   overflow-wrap: break-word;
+}
+footer {
+  color: hsla(120, 100%, 100%, 0.3);
+  font-family: cursive;
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }
 </style>
