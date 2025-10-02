@@ -164,7 +164,7 @@ export default {
         .update({
           guest_name: name,
           price: price,
-          lastupdate: now()
+          lastupdate: new Date().toISOString()
         })
         .eq('room_id', roomID)
 
