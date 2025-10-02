@@ -6,8 +6,8 @@
         <tr>
           <td height="30%" width="30%">
              <!-- Using Vue Router for navigation -->
-              <ul @click="goHome" id="logoName">
-                <li>
+              <ul @click="goHome" id="logoName" style="align-content: center;">
+                <li >
                   <img
                     src="@/assets/favicon.png"
                     height="15%"
@@ -15,8 +15,9 @@
                     alt="logo"
                     class="logo"
                   />
-                  MOONY
+                  
                 </li>
+                <li>MOONYCO</li>
               </ul>
           </td>
         </tr>
@@ -73,12 +74,13 @@ body,
   background-image: url('@/assets/logo.png');
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
   background-position: center;
   background-color: #1d3c62;
   height: 100%;
   width: 100%;
   margin: 0;
-  font-family: sans-serif;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 a:link {
@@ -95,8 +97,8 @@ a:active {
 }
 
 button {
-  height: 20%;
-  width: 20%;
+  height: 30%;
+  width: 50%;
   border: none;
   padding: 8px 8px;
   background: transparent;
@@ -124,31 +126,8 @@ button {
   float: right;
 }
 
-#apparelButton {
-  background-color: #1d3c62;
-  color: white;
-  font-size: 20px;
-  font-family: "Marker Felt", sans-serif;
-  text-align: center;
-  padding: 15px 15px;
-}
-
-#apparelButton:hover {
+button:hover {
   background-color: hsla(264, 100%, 80%, 0.3);
-  color: #000000;
-}
-
-#hotelButton {
-  background-color: #1d3c62;
-  color: white;
-  font-size: 20px;
-  font-family: "Marker Felt", sans-serif;
-  text-align: center;
-  padding: 15px 15px;
-}
-
-#hotelButton:hover {
-  background-color: hsla(36, 100%, 50%, 0.3);
   color: #000000;
 }
 
@@ -165,7 +144,7 @@ section {
 }
 
 footer {
-  color: hsla(120, 0%, 50%, 0.5);
+  color: hsla(120, 100%, 100%, 0.3);
   font-family: cursive;
   position: relative;
   bottom: 0;

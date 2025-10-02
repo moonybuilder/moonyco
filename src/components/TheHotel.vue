@@ -6,7 +6,7 @@
         <tr>
           <td height="30%" width="30%">
             <router-link to="/">
-              <ul class="logoName">
+              <ul >
                 <li>
                   <img
                     src="@/assets/favicon.png"
@@ -15,7 +15,9 @@
                     alt="logo"
                     class="logo"
                   />
-                  MOONY: <i style="color: #654343;">Hotel</i>
+                  </li>
+                  <li id="heading">
+                  moonyco hotel
                 </li>
               </ul>
             </router-link>
@@ -53,7 +55,7 @@
         </router-link>
         <br /><br />
         <router-link to="/Contact">
-          <button id="toFormButton">Contact Us</button>
+          <button id="contactButton">Contact Us</button>
         </router-link>
       </div>
     </section>
@@ -79,12 +81,12 @@ export default {
   },
   methods: {
     generateDiscounts() {
-      const SMAX = 201,
+      const SMAX = 301,
         SMIN = 99,
-        DMAX = 301,
-        DMIN = 99,
-        PMAX = 401,
-        PMIN = 99;
+        DMAX = 501,
+        DMIN = 208,
+        PMAX = 701,
+        PMIN = 340.88;
 
       const standardP =
         ((Math.random() * (SMAX - SMIN) + SMIN) +
@@ -134,22 +136,22 @@ body,
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  background-color: #04191d;
+  background-attachment: fixed;
   height: 100%;
   width: 100%;
   margin: 0;
-  font-family: sans-serif;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 .logo {
   border-radius: 100%;
 }
 
-.logoName {
+#heading {
   list-style-type: none;
   color: white;
-  font-family: "Marker Felt", sans-serif;
-  font-size: 50px;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 15%;
   text-align: center;
   text-decoration: none;
 }
@@ -160,36 +162,34 @@ body,
   cursor: pointer;
 }
 #type:hover {
-  background-color: hsla(0, 20%, 70%, 0.3);
+  opacity: 0.8;
 }
 
 .discount {
-  color: #654343;
+  color: #ffffff;
   text-align: center;
   font-size: 30px;
-  font-family: "American Typewriter", sans-serif;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-#toFormButton {
-  background-color: #654343;
+button {
   color: white;
+  background-color: #232D2D;
   font-size: 20px;
-  font-family: "Marker Felt", sans-serif;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   padding: 15px 15px;
 }
 
-#toFormButton:hover {
-  background-color: hsla(240, 0%, 95%, 0.1);
-  color: #654343;
+button:hover {
+  opacity: 0.8;
 }
 
 section {
   height: 50%;
   width: 50%;
-  background-color: hsla(170, 23%, 75%, 0.3);
+  background-color: hsla(360, 0%, 0%, 0.3);
   color: white;
   font-size: 25px;
-  font-family: sans-serif;
   padding: 100px 50px;
   text-align: center;
   margin-left: 20%;

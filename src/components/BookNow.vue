@@ -5,19 +5,18 @@
         <ul class="logoName">
           <li>
             <img src="@/assets/favicon.png" alt="logo" class="logo" />
-            HOTEL
           </li>
         </ul>
       </router-link>
     </nav>
 
     <section>
-      <br /><br /><br />
+      <br />
       <p> Current Price: <i>{{ selectionText }}</i></p>
 
       <form @submit.prevent="newRoom">
         <p v-html="memo"></p>
-        <br /><br /><br /><br />
+        <br /><br />
         <input
           v-if="roomAvailable"
           id="bookButtonS"
@@ -32,10 +31,9 @@
           type="button"
           value="Back to Home"
         />
-        <input id="clearButton" type="submit" value="New Room" />
       </form>
 
-      <br /><br /><br />
+      <br />
 
       <router-link to="/hotel">
         <button id="cancelButton">Cancel</button>
@@ -78,7 +76,6 @@ export default {
         return
       }
 
-      // Query Supabase for an available room of this type
       const { data, error } = await supabase
         .from('hotel_rooms')
         .select('*')
@@ -93,60 +90,113 @@ export default {
         return
       }
 
-      //if (!data || data.length === 0) {
-        //this.selectionText = 'No rooms available'
-        //this.roomAvailable = false
-        //localStorage.removeItem('type')
-        //localStorage.removeItem('selection')
-        //localStorage.removeItem('price')
-      //} else {
-        this.roomData = data[0] // room to book
-      //}
+      if (!data || data.length === 0) {
+        this.selectionText = 'No rooms available'
+        this.roomAvailable = false
+        localStorage.removeItem('type')
+        localStorage.removeItem('selection')
+        localStorage.removeItem('price')
+      } else {
+        this.roomData = data[0]
+      }
     },
 
     async book() {
-      const nameInput = prompt('Your Name')
-      if (!nameInput || !this.roomData) return
+      if (!this.roomData) return
 
+      const nameInput = prompt('Your Name')
+      if (!nameInput) return
       const name = nameInput.charAt(0).toUpperCase() + nameInput.slice(1)
       const roomID = this.roomData.room_id
+      const price = parseFloat(localStorage.getItem('price')) || 0
+      const priceCents = Math.round(price * 100)
 
-      const price = localStorage.getItem('price')
+      // Prompt for card info
+      const cardNumber = prompt('Enter 16-digit card number')
+      const holderName = prompt('Card Holder Name')
+      if (!cardNumber || !holderName) {
+        alert('Payment cancelled.')
+        return
+      }
 
-      // Update room in Supabase
-      const { error } = await supabase
+      // Check card in database
+      const { data: cardData, error: cardError } = await supabase
+        .from('cards')
+        .select('*')
+        .eq('card_number', cardNumber)
+        .single()
+
+      if (cardError || !cardData) {
+        alert('Card not found.')
+        return
+      }
+
+      if (cardData.balance_cents < priceCents) {
+        alert('Insufficient balance.')
+        return
+      }
+
+      // Deduct balance
+      const { error: updateError } = await supabase
+        .from('cards')
+        .update({ balance_cents: cardData.balance_cents - priceCents })
+        .eq('id', cardData.id)
+
+      if (updateError) {
+        alert('Payment processing failed.')
+        return
+      }
+
+      // Record transaction
+      await supabase.from('transactions').insert([
+        {
+          card_id: cardData.id,
+          amount_cents: priceCents,
+          description: `Booking Room ${roomID} (${this.roomData.room_type})`,
+          status: 'approved'
+        }
+      ])
+
+      // Update room booking
+      const { error: roomError } = await supabase
         .from('hotel_rooms')
         .update({
           guest_name: name,
           price: price
         })
-        .eq('room_id', this.roomID)  // only update the room with this ID
-        .select();                   // return the updated row(s)
+        .eq('room_id', roomID)
 
-      if (error) {
-        console.error(error)
-        this.memo = 'Error booking room.'
+      if (roomError) {
+        alert('Failed to update room booking.')
         return
       }
 
       // Booking memo
       this.memo = `
         <h5>Thanks for your booking ${name}</h5>
-        <br>You're in our <br><br><strong>${this.roomData.room_type} ROOM</strong>
-        <br>You're booked for <br><br><strong>Room ${roomID}</strong><br><br><i>ENJOY!</i>
-        <br><br><br><br>=========================
+        <br>You're in our <strong>${this.roomData.room_type} ROOM ${roomID}</strong>
+        <br>=========================
         <br><h3>INVOICE FOR ROOM ${roomID}</h3>
         <br>=========================<br>
-        <i style='color: green;'>Billed To: </i><br><br>
-        <b>GUEST:</b> ${name}<br><br>
-        <b style='color: red;'>AMOUNT DUE:</b> ${price}<br><br>
-        -------------------------
-        <br><br><br>
-        <i style='color: red; font-size: 18px;'>
-        ****************To cancel a booking please visit the main hotel page****************</i>
+        <i style='color: blue;'>Billed To: ${name}</i><br>
+        <b style='color: red;'>AMOUNT DUE:</b> $${((price*100)-priceCents).toFixed(2)}<br>
+        -------------------------<br>
+        <i style='color: red; font-size: 18px;'>****************To cancel a booking please visit the main hotel page****************</i>
       `
-
-      localStorage.taken = Number(localStorage.taken || 0) + 1
+      if (updateError){
+        this.memo = `
+        <h5>Thanks for your booking ${name}</h5>
+        <br>You're in our <strong>${this.roomData.room_type} ROOM ${roomID}</strong>
+        <br>=========================
+        <br><h3>INVOICE FOR ROOM ${roomID}</h3>
+        <br>=========================<br>
+        <i style='color: blue;'>Billed To: ${name}</i><br>
+        <b style='color: red;'>AMOUNT DUE:</b> $${price.toFixed(2)}<br>
+        -------------------------<br>
+        <i style='color: red; font-size: 18px;'>****************To cancel a booking please visit the main hotel page****************</i>
+      `
+      }
+      
     },
 
     newRoom() {
@@ -170,11 +220,12 @@ body,
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  background-color: #1E2224;
-  height: 100%;
-  width: 100%;
+  background-attachment: fixed;
+  background-blend-mode: difference;
+  height: 70%;
+  width: 70%;
   margin: 0;
-  font-family: sans-serif;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .logo {
@@ -193,10 +244,9 @@ body,
 section {
   height: 50%;
   width: 50%;
-  background-color: hsla(180, 12%, 70%, 0.3);
+  background-color: hsla(360, 0%, 0%, 0.3);
   color: white;
   font-size: 25px;
-  font-family: sans-serif;
   padding: 100px 50px;
   text-align: center;
   margin-left: 20%;
@@ -206,7 +256,7 @@ section {
 button,
 input {
   padding: 15px;
-  font-family: marker felt;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   font-size: 20px;
   color: white;
   background-color: #232D2D;
