@@ -4,11 +4,7 @@
       <router-link to="/hotel">
         <ul id="logo">
           <li>
-            <img src="@/assets/favicon.png" 
-              height="15%"
-              width="15%"
-              alt="logo"
-              class="logo" />
+            <img src="@/assets/favicon.png" height="15%" width="15%" alt="logo" class="logo" />
           </li>
         </ul>
       </router-link>
@@ -21,20 +17,8 @@
       <form @submit.prevent="newRoom">
         <p v-html="memo"></p>
         <br /><br />
-        <input
-          v-if="roomAvailable"
-          id="bookButtonS"
-          @click="book"
-          type="button"
-          value="Book"
-        />
-        <input
-          v-else
-          id="bookButtonS"
-          @click="goHome"
-          type="button"
-          value="Back to Home"
-        />
+        <input v-if="roomAvailable" id="bookButtonS" @click="book" type="button" value="Book" />
+        <input v-else id="bookButtonS" @click="goHome" type="button" value="Back to Home" />
       </form>
 
       <br />
@@ -45,7 +29,9 @@
     </section>
 
     <footer>
-      <i><center>Copyright arandomgirl<sup>TM</sup> 2022</center></i>
+      <i>
+        <center>Copyright arandomgirl<sup>TM</sup> 2022</center>
+      </i>
     </footer>
   </div>
 </template>
@@ -53,11 +39,12 @@
 <script>
 import { createClient } from '@supabase/supabase-js'
 import { v4 as uuidv4 } from 'uuid';
-    const ref = uuidv4(); // ex: "c9b1d6c0-0f0a-4b89-bbb2-4bcd21d3e123"
+
 // Supabase client
 const supabaseUrl = 'https://bsonokuujaesjvfhfkmp.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzb25va3V1amFlc2p2Zmhma21wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxNDUyMTAsImV4cCI6MjA3NDcyMTIxMH0.0EMzRxqBASECnGlB2eT9dIP5t26HMZRl_BWG6kZA0hI'
+const supabaseKey = 'sb_publishable_lpnj0PISj4Z1YOAGkGk5kg_oHFVqJ-2'
 const supabase = createClient(supabaseUrl, supabaseKey)
+const ref = uuidv4(); // ex: "c9b1d6c0-0f0a-4b89-bbb2-4bcd21d3e123"
 
 export default {
   name: 'BookNow',
@@ -121,14 +108,14 @@ export default {
       const holderName = prompt('Card Holder Name')
       if (!cardNumber || !holderName) {
         await supabase.from('transactions').insert([
-        {
-          id: ref,
-          card_id: cardData.id,
-          amount_cents: priceCents,
-          description: `Payment processing failed.`,
-          status: 'cancelled'
-        }
-      ])
+          {
+            id: ref,
+            card_id: cardData.id,
+            amount_cents: priceCents,
+            description: `Payment processing failed.`,
+            status: 'cancelled'
+          }
+        ])
         alert('Payment cancelled.')
         return
       }
@@ -147,14 +134,14 @@ export default {
 
       if (cardData.balance_cents < priceCents) {
         await supabase.from('transactions').insert([
-        {
-          id: ref,
-          card_id: cardData.id,
-          amount_cents: priceCents,
-          description: `Insufficient balance.`,
-          status: 'declined'
-        }
-      ])
+          {
+            id: ref,
+            card_id: cardData.id,
+            amount_cents: priceCents,
+            description: `Insufficient balance.`,
+            status: 'declined'
+          }
+        ])
         alert('Insufficient balance.')
         return
       }
@@ -166,16 +153,17 @@ export default {
         .eq('id', cardData.id)
 
       if (updateError) {
-        await supabase.from('transactions').insert([
-        {
-          id: ref,
-          card_id: cardData.id,
-          amount_cents: priceCents,
-          description: `Payment processing failed.`,
-          status: 'cancelled'
-        }
-      ])
+
         alert('Payment processing failed.')
+        await supabase.from('transactions').insert([
+          {
+            id: ref,
+            card_id: cardData.id,
+            amount_cents: priceCents,
+            description: `Payment processing failed.`,
+            status: 'cancelled'
+          }
+        ])
         return
       }
 
@@ -204,7 +192,7 @@ export default {
         alert('Failed to update room booking.')
         return
       }
-      
+
       // Booking memo
       this.memo = `
         <h5>Congratulations ${name}</h5>
@@ -215,7 +203,7 @@ export default {
         Billed To: ${name}<br>
         Per Night: $${price.toFixed(2)}
         Deposit: $${price.toFixed(2)}<br>
-        <b style='color: red;'>AMOUNT DUE:</b> $${((price*100)-priceCents).toFixed(2)}
+        <b style='color: red;'>AMOUNT DUE:</b> $${((price * 100) - priceCents).toFixed(2)}
         <b style='color: green;'>AMOUNT PAID: $${price.toFixed(2)}<br>
         -------------------------<br>
         <i> ref id: ${this.ref} </i>
@@ -249,7 +237,7 @@ body,
   height: 100%;
   width: 100%;
   margin: 0;
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #logo {
@@ -257,6 +245,7 @@ body,
   height: 15%;
   width: 15%;
 }
+
 section {
   height: 70%;
   width: 50%;
@@ -268,7 +257,11 @@ section {
   margin-left: 20%;
   overflow-wrap: break-word;
 }
-*:visited{ text-decoration: none;}
+
+*:visited {
+  text-decoration: none;
+}
+
 button,
 input {
   padding: 15px;
@@ -283,6 +276,7 @@ button:hover,
 input:hover {
   opacity: 0.8;
 }
+
 footer {
   color: hsla(120, 100%, 100%, 0.3);
   font-family: cursive;
