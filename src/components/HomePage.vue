@@ -84,14 +84,12 @@ body,
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
-a:link {
-  color: white;
+*:link {
   text-decoration: none;
 }
 *:visited{ text-decoration: none;}
 
-a:active {
-  color: black;
+*:active {
   text-decoration: none;
 }
 
