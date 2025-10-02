@@ -2,7 +2,7 @@
   <div id="booking">
     <nav>
       <router-link to="/hotel">
-        <ul class="logoName">
+        <ul id="logo">
           <li>
             <img src="@/assets/favicon.png" alt="logo" class="logo" />
           </li>
@@ -48,6 +48,7 @@
 
 <script>
 import { createClient } from '@supabase/supabase-js'
+import { now } from 'core-js/core/date'
 
 // Supabase client
 const supabaseUrl = 'https://bsonokuujaesjvfhfkmp.supabase.co'
@@ -162,7 +163,8 @@ export default {
         .from('hotel_rooms')
         .update({
           guest_name: name,
-          price: price
+          price: price,
+          lastupdate: now()
         })
         .eq('room_id', roomID)
 
@@ -228,8 +230,10 @@ body,
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-.logo {
+#logo {
   border-radius: 100%;
+  height: 15%;
+  width: 15%;
 }
 section {
   height: 70%;

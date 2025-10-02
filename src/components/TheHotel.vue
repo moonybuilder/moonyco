@@ -6,7 +6,7 @@
         <tr>
           <td height="30%" width="30%">
             <router-link to="/">
-              <ul >
+              <ul style="align-content: center;">
                 <li>
                   <img
                     src="@/assets/favicon.png"
@@ -152,7 +152,7 @@ body,
   list-style-type: none;
   color: white;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-size: 50%;
+  font-size: 100%;
   text-decoration: none;
 }
 

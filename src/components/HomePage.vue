@@ -99,6 +99,7 @@ button {
   height: 30%;
   width: 50%;
   color: white;
+  font-size: 100%;
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   border: none;
   padding: 8px 8px;
@@ -113,7 +114,7 @@ button {
 #logoName {
   list-style-type: none;
   color: white;
-  font-size: 70%;
+  font-size: 100%;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
