@@ -48,7 +48,6 @@
 
 <script>
 import { createClient } from '@supabase/supabase-js'
-import { now } from 'core-js/core/date'
 
 // Supabase client
 const supabaseUrl = 'https://bsonokuujaesjvfhfkmp.supabase.co'
